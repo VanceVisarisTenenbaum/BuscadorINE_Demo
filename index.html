@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador INE</title>
+    <link rel="stylesheet" href="styles/body.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/Inputs.css">
+    <link rel="stylesheet" href="styles/Graficas.css">
+    
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.js" integrity="sha512-34c+czbe1JJMtTH6ebtsJdIa1K3lNsxDC92M3PBI0bACg7nu+DhHwfRS2Zc2qtbyPWKHLTgoxsMrArG4Myx4AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script defer type="module" src="./Scripts/RequestsHandler.js"></script>
+    <script defer type="module" src="./Scripts/URLBuilder.js"></script>
+    <script defer type="module" src="./Scripts/INEAPIHandler.js"></script>
+
+    <script defer type="module" src="./Scripts/graphScripts.js"></script>
+    <script defer type="module" src="./Scripts/scripts.js"></script>
+</head>
+<body>
+    <header><h1>Buscador INE</h1></header>
+    <div id="CajaInputs">
+        <div id="CajaInputOperacionesTablas">
+            <div id="CajaInputOperaciones">
+                <label for="Operaciones">Operaciones Estadísticas</label>
+                <select name="Operaciones" id="SelectOperaciones">
+                    <option value="" disabled selected>Operaciones</option>
+                </select>
+            </div>
+            <div id="CajaInputTablas" class="ClickInputTablasSeries">
+                <!--<div id="TituloTablas">Tablas estadísticas</div>-->
+                <label for="Tablas">Tablas Estadísticas</label>
+                <select name="Tablas" id="SelectTablas">
+                    <option value="" disabled selected>Tablas</option>
+                </select>
+            </div>
+        </div>
+        <div id="CajaInputVariableValor">
+            <div>
+                <div>Variable asociadas a la operación</div>
+                <div>Valores asociados a la variable</div>
+            </div>
+            <div>
+                <div>
+                    <label for="Var1">Variables</label>
+                    <select name="Var1" id="Var1">
+                        <option value="" disabled selected>Variables</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Val1">Valores</label>
+                    <select name="Val1" id="Val1">
+                        <option value="" disabled selected>Valores</option>
+                    </select>
+                </div>
+                <!--<button>X</button>-->
+            </div>
+            <!--*****************************************-->
+            <div>
+                <div>
+                    <label for="Var2">Variables</label>
+                    <select name="Var2" id="Var2">
+                        <option value="" disabled selected>Variables</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Val2">Valores</label>
+                    <select name="Val2" id="Val2">
+                        <option value="" disabled selected>Valores</option>
+                    </select>
+                </div>
+                <!--<button>X</button>-->
+            </div>
+            <!--*****************************************-->
+            <div>
+                <div>
+                    <label for="Var3">Variables</label>
+                    <select name="Var3" id="Var3">
+                        <option value="" disabled selected>Variables</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Val3">Valores</label>
+                    <select name="Val3" id="Val3">
+                        <option value="" disabled selected>Valores</option>
+                    </select>
+                </div>
+                <!--<button>X</button>-->
+            </div>
+            <!--*****************************************-->
+            <div>
+                <div>
+                    <label for="Var4">Variables</label>
+                    <select name="Var4" id="Var4">
+                        <option value="" disabled selected>Variables</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Val4">Valores</label>
+                    <select name="Val4" id="Val4">
+                        <option value="" disabled selected>Valores</option>
+                    </select>
+                </div>
+                <!--<button>X</button>-->
+            </div>
+            <!--*****************************************-->
+            <div>
+                <div>
+                    <label for="Var5">Variables</label>
+                    <select name="Var5" id="Var5">
+                        <option value="" disabled selected>Variables</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Val5">Valores</label>
+                    <select name="Val5" id="Val5">
+                        <option value="" disabled selected>Valores</option>
+                    </select>
+                </div>
+                <!--<button>X</button>-->
+            </div>
+            <!--*****************************************-->
+        </div>
+    </div>
+    <div id="CajaGraficas">
+        <section>Series seleccionadas según la operación y pares variable valor o tablas</section>
+        <div id="CajaGraficaSerie">
+            <div id="canvasContainer">
+                <canvas id="Grafica"></canvas>
+            </div>
+            <div id="InputSeries" class="ClickInputTablasSeries">
+                <!--<div>Series disponibles</div>-->
+                <label for="StartDate">Fecha inicial</label>
+                <input type="date" id="StartDateInput" name="StartDate">
+                <label for="EndDate">Fecha final</label>
+                <input type="date" id="EndDateInput" name="EndDate">
+                <label for="Series">Series disponibles</label>
+                <select name="Series" id="SelectSeries">
+                    <option value="" disabled selected>Series</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="CajaDescargas">
+        <pre id="csvOutput"></pre>
+    </div>
+</body>
+</html>

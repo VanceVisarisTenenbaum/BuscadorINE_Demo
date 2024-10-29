@@ -1,0 +1,39 @@
+
+#CajaGraficas {
+    padding: 5px;
+    background-color: #E4C3AD;
+    box-sizing: border-box;
+    max-height: 75vh;
+    color: #272727;
+    border:1px solid #62C370;
+    border-radius: 10px;
+}
+
+#CajaGraficaSerie {
+    background-color: #E4C3AD;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
+    box-sizing: border-box;
+    height: 65vh;
+    border-radius: 10px;
+    border: 1px solid #90708C;
+}
+
+#CajaGraficaSerie > div {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+
+#InputSeries {
+    height: 100%;
+    box-sizing: border-box;
+    width: 40%;
+}
+
+#canvasContainer {
+    width: 60%;
+    aspect-ratio: 1 / 1;
+}

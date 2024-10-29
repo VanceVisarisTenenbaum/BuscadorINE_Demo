@@ -1,0 +1,9 @@
+header {
+    background-color: #E4C3AD;
+    border-radius: 10px;
+    color: #272727;
+    width: 100%;
+    padding: 15px;
+    border:1px solid #62C370;
+    box-sizing: border-box;
+}
