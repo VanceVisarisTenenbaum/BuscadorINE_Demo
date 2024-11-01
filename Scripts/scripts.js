@@ -101,7 +101,7 @@ async function set_series_by_val(){
 }
 
 
-async function get_data_csv(ser_id,start_date=null,end_date=null){
+async function get_data_csv(ser_id,start_date=null,end_date=null,v2=false){
     if (ser_id==-1){return undefined;}
     let data = await INE.get_data(
         ser_id,
@@ -109,13 +109,13 @@ async function get_data_csv(ser_id,start_date=null,end_date=null){
         null,
         0,
         'A',
-        300,
+        500,
         start_date,
         end_date
     );
     let data_vals = data['Data'];
     let label = data['Nombre'];
-    let csv="Fecha,Valor\n";
+    let csv="Fecha,Valor,Label\n";
     let x_list = [];
     let y_list = [];
     for (let i = 0; i < data_vals.length; i++) {
@@ -124,7 +124,10 @@ async function get_data_csv(ser_id,start_date=null,end_date=null){
 
         x_list.push(x);
         y_list.push(y);
-        csv += `${x},${y}\n`; // Añadir cada fila
+        csv += `${x},${y},${label}\n`; // Añadir cada fila
+    }
+    if (v2){
+        return [csv,data]
     }
     return [csv,[x_list,y_list],label];
 }
@@ -141,13 +144,31 @@ async function write_csv_to_text_and_plot(ser_id,sd,ed){
 }
 
 async function write_csv_to_text_and_plot_multi(list_of_ser,sd,ed){
-    let data = list_of_ser.map(async function(ser_id){await get_data_csv(ser_id,sd,ed)});
-    let csv_text = data[0];
-    let xy = data[1];
-    let x = xy[0];
-    let y = xy[1];
-    let label = data[2];
-    multiPlot(x,y,label,false);
+    //let data = list_of_ser.map(async function(ser_id){await get_data_csv(ser_id,sd,ed,true)});
+    let data = await Promise.all(list_of_ser.map(function(ser_id) {
+        return get_data_csv(ser_id, sd, ed, true);
+    }));    
+    //console.log(data);
+    let csv_text = ""
+    let list_of_data = []
+
+    data.forEach(function(t){
+        csv_text += t[0];
+        list_of_data.push(t[1]);
+        return undefined;
+    })
+    /*
+    data here is a list of
+    [
+        [
+            csv,
+            data
+        ]
+    ]
+    */
+    //console.log(csv_text);
+    //console.log(list_of_data);
+    multiPlot(list_of_data);
     document.getElementById('csvOutput').textContent = csv_text;
 }
 
@@ -194,15 +215,15 @@ function add_event_listener_tab(){
 function add_event_listener_ser(){
     let sel = document.getElementById('SelectSeries');
     sel.addEventListener('change',async function(){
-        let ser_id= sel.value;
-        //var seleccionadas = Array.from(sel.selectedOptions).map(option => option.value);
+        //let ser_id= sel.value;
+        var seleccionadas = Array.from(sel.selectedOptions).map(option => option.value);
         let sd = document.getElementById('StartDateInput').value;
         let ed = document.getElementById('EndDateInput').value;
         console.log(sd,ed,'**-*-*****--*');
         if (sd===''){sd=null;}
         if (ed===''){ed=null;}
-        await write_csv_to_text_and_plot(ser_id,sd,ed);
-        //await write_csv_to_text_and_plot_multi(seleccionadas,sd,ed);
+        //await write_csv_to_text_and_plot(ser_id,sd,ed);
+        await write_csv_to_text_and_plot_multi(seleccionadas,sd,ed);
     })
     return undefined;
 }

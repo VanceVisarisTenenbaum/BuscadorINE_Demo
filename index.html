@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="styles/Graficas.css">
     
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.js" integrity="sha512-34c+czbe1JJMtTH6ebtsJdIa1K3lNsxDC92M3PBI0bACg7nu+DhHwfRS2Zc2qtbyPWKHLTgoxsMrArG4Myx4AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.2.0/math.js" integrity="sha512-K6yeEH8HDerhMdJyfx5uSdY0YHQAu2R0KhwGQ9Jzvh0qZPUjceeV7ch0BZz9w6UY+TgKldDzsQWVN+XeJ3PSzw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script defer type="module" src="./Scripts/RequestsHandler.js"></script>
     <script defer type="module" src="./Scripts/URLBuilder.js"></script>
     <script defer type="module" src="./Scripts/INEAPIHandler.js"></script>
@@ -137,7 +137,7 @@
                 <label for="EndDate">Fecha final</label>
                 <input type="date" id="EndDateInput" name="EndDate">
                 <label for="Series">Series disponibles</label>
-                <select name="Series" id="SelectSeries">
+                <select name="Series" id="SelectSeries" multiple>
                     <option value="" disabled selected>Series</option>
                 </select>
             </div>

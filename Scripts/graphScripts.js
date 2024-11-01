@@ -53,7 +53,6 @@ function getConfigTime(XData,YData,varName){
                 x: {
                     type: 'time',
                     time: {
-                        unit: 'millisecond'
                     }
                 }
             }
@@ -72,13 +71,18 @@ async function plotXY(x,y,varName,time=false){
     return undefined;
 }
 
+
+
+
 async function multiPlot(list_of_data){
+    removeCanvas();
+    createCanvas();
     let ctx = getChart().getContext('2d');
     let datasets = list_of_data.map(
         (datos_series) => {
             let data = datos_series['Data'];
             let lab = datos_series['Nombre'];
-            const xData = data.map(point => point['Fecha']);
+            //const xData = data.map(point => point['Fecha']);
             const yData = data.map(point => point['Valor']);
             return {
                 label: lab,
@@ -86,7 +90,15 @@ async function multiPlot(list_of_data){
             }
         }
     )
-    let X = list_of_data[0]['Data'].map(point=>point[0]);
+    
+    
+    let X = list_of_data[0]['Data'].map(function(dato){
+        let f = dato['Fecha'];
+        let pos = f.indexOf('T');
+        if (pos!=-1){return f.substring(0,pos);}
+    });
+    console.log(datasets);
+    console.log(X);
     new Chart(ctx,{
         type:'line',
         data: {
@@ -96,11 +108,56 @@ async function multiPlot(list_of_data){
         options: {
             scales: {
                 x: {
-                    type: 'time',
-                    time: {
-                        unit: 'millisecond'
-                    }
+                    type: 'category',
+                    time:{}
                 }
+            }
+        },
+        plugins: {
+            afterDatasetsDraw: function(chart) {
+                const ctx = chart.ctx;
+                const xAxis = chart.scales.x;
+
+                // Estilo de las líneas
+                ctx.save();
+                let categoriasReferencia = [
+                    {
+                        'Value':new Date('1996-05-01'), //Dates are the beginning of the year
+                        'Label':'PP: Aznar',
+                        'color':'#176AA5'
+                    },
+                    {
+                        'Value':new Date('2004-04-01'),
+                        'Label':'PSOE: Zapatero',
+                        'color':'#B80D16',
+                    },
+                    {
+                        'Value':new Date('2011-12-01'),
+                        'Label':'PP: Rajoy',
+                        'color':'#176AA5'
+                    },
+                    {
+                        'Value':new Date('2018-06-01'),
+                        'Label':'PSOE: Sánchez',
+                        'color':'#B80D16'
+                    }
+                ]
+                // Dibujar líneas para cada categoría de referencia
+                categoriasReferencia.forEach(categoriaReferencia => {
+                    const x = xAxis.getPixelForValue(categoriaReferencia.Value);
+                    ctx.beginPath();
+                    ctx.moveTo(x, chart.scales.y.bottom); // Desde abajo del gráfico
+                    ctx.lineTo(x, chart.scales.y.top); // Hasta arriba del gráfico
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = categoriaReferencia.color; // Usar el color de la categoría
+                    ctx.stroke();
+                    
+                    // Opcional: dibujar etiqueta al lado de la línea
+                    ctx.fillStyle = categoriaReferencia.color;
+                    ctx.fillText(categoriaReferencia.Label, x + 5, chart.scales.y.top + 10);
+                });
+
+                ctx.restore();
             }
         }
     })
