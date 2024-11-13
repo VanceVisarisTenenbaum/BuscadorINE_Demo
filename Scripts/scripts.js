@@ -117,7 +117,7 @@ async function get_data_csv(ser_id,start_date=null,end_date=null,v2=false,add_ti
     let label = data['Nombre'];
     let csv;
     if (add_title){csv="Fecha,Valor,Label\n";}
-    else {csv="\n";}
+    else {csv="";}
     let x_list = [];
     let y_list = [];
     for (let i = 0; i < data_vals.length; i++) {
