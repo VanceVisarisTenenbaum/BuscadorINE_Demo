@@ -101,7 +101,7 @@ async function set_series_by_val(){
 }
 
 
-async function get_data_csv(ser_id,start_date=null,end_date=null,v2=false){
+async function get_data_csv(ser_id,start_date=null,end_date=null,v2=false,add_title=false){
     if (ser_id==-1){return undefined;}
     let data = await INE.get_data(
         ser_id,
@@ -115,7 +115,9 @@ async function get_data_csv(ser_id,start_date=null,end_date=null,v2=false){
     );
     let data_vals = data['Data'];
     let label = data['Nombre'];
-    let csv="Fecha,Valor,Label\n";
+    let csv;
+    if (add_title){csv="Fecha,Valor,Label\n";}
+    else {csv="\n"}
     let x_list = [];
     let y_list = [];
     for (let i = 0; i < data_vals.length; i++) {
@@ -145,8 +147,11 @@ async function write_csv_to_text_and_plot(ser_id,sd,ed){
 
 async function write_csv_to_text_and_plot_multi(list_of_ser,sd,ed){
     //let data = list_of_ser.map(async function(ser_id){await get_data_csv(ser_id,sd,ed,true)});
-    let data = await Promise.all(list_of_ser.map(function(ser_id) {
-        return get_data_csv(ser_id, sd, ed, true);
+    let data = await Promise.all(list_of_ser.map(function(ser_id,index) {
+        let add_title;
+        if (index===0){add_title=true}
+        else {add_title=false}
+        return get_data_csv(ser_id, sd, ed, true,add_title);
     }));    
     //console.log(data);
     let csv_text = ""
