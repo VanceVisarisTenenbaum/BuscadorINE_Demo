@@ -117,7 +117,7 @@ async function get_data_csv(ser_id,start_date=null,end_date=null,v2=false,add_ti
     let label = data['Nombre'];
     let csv;
     if (add_title){csv="Fecha,Valor,Label\n";}
-    else {csv="\n"}
+    else {csv="\n";}
     let x_list = [];
     let y_list = [];
     for (let i = 0; i < data_vals.length; i++) {
@@ -149,8 +149,8 @@ async function write_csv_to_text_and_plot_multi(list_of_ser,sd,ed){
     //let data = list_of_ser.map(async function(ser_id){await get_data_csv(ser_id,sd,ed,true)});
     let data = await Promise.all(list_of_ser.map(function(ser_id,index) {
         let add_title;
-        if (index===0){add_title=true}
-        else {add_title=false}
+        if (index===0){add_title=true;}
+        else {add_title=false;}
         return get_data_csv(ser_id, sd, ed, true,add_title);
     }));    
     //console.log(data);
